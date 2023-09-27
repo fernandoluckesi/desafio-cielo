@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-import { Header, MainContainer, NavBar, NavItem, StoreInfos } from "./styles";
+import React from "react";
+import { Footer, Header, MainContainer, NavBar, StoreInfos } from "./styles";
 import logoCieloCinzaAzulCielo from "../../assets/images/logo-cielo-cinza-azul-cielo.png";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Link, useLocation } from "react-router-dom";
 import { ListMenu } from "../ListMenu";
+import { options } from "../../mocks/listMenu";
+import { AccountMenu } from "../AccountMenu";
 
 export const SidebarMenu: React.FC = () => {
   const location = useLocation();
@@ -27,13 +29,11 @@ export const SidebarMenu: React.FC = () => {
       <Header>
         <img src={logoCieloCinzaAzulCielo} className="header-logo" />
         <StoreInfos>
-          <div>
-            <p className="name">Pocket Med LTDA</p>
-            <p className="cnpj">95.390.039/0001-79</p>
-          </div>
-          <KeyboardArrowDownIcon />
+          <ListMenu options={options} />
+          <KeyboardArrowDownIcon
+            sx={{ position: "absolute", top: 16, right: 0 }}
+          />
         </StoreInfos>
-        <ListMenu />
       </Header>
       <NavBar>
         {MenuNavItems.map((navItem) => {
@@ -53,6 +53,9 @@ export const SidebarMenu: React.FC = () => {
           );
         })}
       </NavBar>
+      <Footer>
+        <AccountMenu />{" "}
+      </Footer>
     </MainContainer>
   );
 };

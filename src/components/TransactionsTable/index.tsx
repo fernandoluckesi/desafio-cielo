@@ -7,42 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-
-function createData(
-  id: string,
-  paymentType: string,
-  cardBrand: string,
-  grossAmount: number,
-  netAmount: number,
-  mdrFeeAmount: number,
-  status: string,
-  date: string
-) {
-  return {
-    id,
-    paymentType,
-    cardBrand,
-    grossAmount,
-    netAmount,
-    mdrFeeAmount,
-    status,
-
-    date,
-  };
-}
-
-const rows = [
-  createData(
-    "114606514478703",
-    "Crédito à vista",
-    "Mastercard",
-    80,
-    76.88,
-    3.12,
-    "Aprovada",
-    "2021-05-26T12:12:55"
-  ),
-];
+import { rows } from "../../mocks/transictionsTable";
 
 export const TransactionsTable: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(0);

@@ -5,16 +5,18 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 
-const options = [
-  "Show some love to MUI",
-  "Show all notification content",
-  "Hide sensitive notification content",
-  "Hide all notification content",
-];
+interface Option {
+  companyName: string;
+  cnpj: string;
+}
 
-export function ListMenu() {
+interface ListMenuProps {
+  options: Option[];
+}
+
+export const ListMenu: React.FC<ListMenuProps> = ({ options }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
   const open = Boolean(anchorEl);
   const handleClickListItem = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -49,8 +51,8 @@ export function ListMenu() {
           onClick={handleClickListItem}
         >
           <ListItemText
-            primary="When device is locked"
-            secondary={options[selectedIndex]}
+            primary={options[selectedIndex].companyName}
+            secondary={options[selectedIndex].cnpj}
           />
         </ListItem>
       </List>
@@ -66,15 +68,17 @@ export function ListMenu() {
       >
         {options.map((option, index) => (
           <MenuItem
-            key={option}
-            disabled={index === 0}
+            key={option.companyName}
             selected={index === selectedIndex}
             onClick={(event) => handleMenuItemClick(event, index)}
           >
-            {option}
+            <ListItemText
+              primary={option.companyName}
+              secondary={option.cnpj}
+            />
           </MenuItem>
         ))}
       </Menu>
     </div>
   );
-}
+};

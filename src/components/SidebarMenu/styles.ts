@@ -4,6 +4,7 @@ export const MainContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.primary.brancoCielo};
   height: 100vh;
   min-width: 270px;
+  position: fixed;
 `;
 
 export const Header = styled.div`
@@ -21,8 +22,7 @@ export const Header = styled.div`
 `;
 
 export const StoreInfos = styled.div`
-  display: flex;
-  justify-content: space-between;
+  position: relative;
   .name {
     font-weight: 500;
   }
@@ -77,4 +77,14 @@ export const NavItem = styled.button`
     color: ${({ theme }) => theme.colors.primary.brancoCielo};
     cursor: pointer;
   }
+`;
+
+export const Footer = styled.div`
+  align-items: center;
+  bottom: 0;
+  border-top: 1px solid ${({ theme }) => theme.colors.secondary.nuvem};
+  display: flex;
+  padding: 16px 0;
+  position: absolute;
+  width: 100%;
 `;

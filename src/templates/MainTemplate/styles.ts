@@ -8,4 +8,6 @@ export const MainContainer = styled.div`
 
 export const ContentViewContainer = styled.div`
   padding: 24px;
+  margin-left: 270px;
+  width: 100%;
 `;

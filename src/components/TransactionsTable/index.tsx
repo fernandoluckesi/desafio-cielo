@@ -1,5 +1,12 @@
-import React, { useState } from "react";
-import { MainContainer } from "./styles";
+import React, { useEffect, useState } from "react";
+import {
+  LoadingContainer,
+  MainContainer,
+  NavigationTable,
+  Pagination,
+  RequestErrorMsg,
+  TotalQuantityInfo,
+} from "./styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -7,64 +14,143 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { rows } from "../../mocks/transictionsTable";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import LastPageIcon from "@mui/icons-material/LastPage";
+import { useSales } from "../../hooks/useSales";
+import { CircularProgress } from "@mui/material";
 
 export const TransactionsTable: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const { items, itemsQuantity, pagination, summary, isLoading, requestError } =
+    useSales();
 
-  const handleChangePage = (event, newPage) => {
-    console.log(event);
-    setCurrentPage(newPage);
+  // * Aqui seria uma versão em que o json tivesse outras páginas para renderizar. Resolvi não inserir essa lógica para que os botões de navegação da tabela altere o número da página, mesmo que não traga dados novos
+  // const { items, itemsQuantity, pagination, summary, isLoading, requestError } =
+  // useSales(currentPage);
+
+  useEffect(() => {
+    if (pagination?.pageNumber) {
+      setCurrentPage(pagination?.pageNumber);
+    }
+  }, [items]);
+
+  const handleChangePage = (buttonType: string) => {
+    switch (buttonType) {
+      case "first":
+        setCurrentPage(1);
+        break;
+      case "prev":
+        if (currentPage > 1) {
+          setCurrentPage(currentPage - 1);
+        }
+        break;
+      case "next":
+        if (currentPage < 65) {
+          setCurrentPage(currentPage + 1);
+        }
+        break;
+      case "last":
+        if (pagination?.numPages) {
+          setCurrentPage(pagination?.numPages);
+        }
+        break;
+      default:
+        break;
+    }
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setCurrentPage(0); // Reset para a primeira página ao alterar a quantidade de itens por página
-  };
-
-  // Cálculos para determinar quais itens exibir com base na página atual e itens por página
-  const startIndex = currentPage * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-  const displayedItems = rows.slice(startIndex, endIndex);
+  if (requestError) {
+    return <RequestErrorMsg>Dados não encontrados</RequestErrorMsg>;
+  }
 
   return (
     <MainContainer>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Tipo de Pagamento</TableCell>
-              <TableCell>Bandeira do cartão</TableCell>
-              <TableCell>Valor bruto</TableCell>
-              <TableCell>Valor líquido</TableCell>
-              <TableCell>Valor da taxa mdr</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Data</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow
-                key={row.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.id}
-                </TableCell>
-                <TableCell>{row.paymentType}</TableCell>
-                <TableCell>{row.cardBrand}</TableCell>
-                <TableCell>{row.grossAmount}</TableCell>
-                <TableCell>{row.netAmount}</TableCell>
-                <TableCell>{row.mdrFeeAmount}</TableCell>
-                <TableCell>{row.status}</TableCell>
-                <TableCell>{row.date}</TableCell>
+      {isLoading ? (
+        <LoadingContainer>
+          <CircularProgress />
+        </LoadingContainer>
+      ) : (
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell>Tipo de Pagamento</TableCell>
+                <TableCell>Bandeira do cartão</TableCell>
+                <TableCell>Valor bruto</TableCell>
+                <TableCell>Valor líquido</TableCell>
+                <TableCell>Canal</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>Data</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {items &&
+                items.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {row.id}
+                    </TableCell>
+                    <TableCell>{row.paymentType}</TableCell>
+                    <TableCell>{row.cardBrand}</TableCell>
+                    <TableCell>{row.grossAmount}</TableCell>
+                    <TableCell>{row.netAmount}</TableCell>
+                    <TableCell>{row.channel}</TableCell>
+                    <TableCell>{row.status}</TableCell>
+                    <TableCell>{row.date}</TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+          <NavigationTable>
+            <TotalQuantityInfo>
+              Mostrando {itemsQuantity} de {summary?.totalQuantity} resultados
+            </TotalQuantityInfo>
+            <Pagination>
+              <button
+                disabled={pagination?.firstPage || currentPage === 1}
+                onClick={() => handleChangePage("first")}
+                className="btn-nav-page"
+              >
+                <FirstPageIcon />
+              </button>
+              <button
+                disabled={pagination?.firstPage || currentPage === 1}
+                className="btn-nav-page"
+                onClick={() => handleChangePage("prev")}
+              >
+                <KeyboardArrowLeftIcon />
+              </button>
+              <p className="current-page">
+                {currentPage} de {pagination?.numPages}
+              </p>
+              <button
+                disabled={
+                  pagination?.lastPage || currentPage === pagination?.numPages
+                }
+                className="btn-nav-page"
+                onClick={() => handleChangePage("next")}
+              >
+                <KeyboardArrowRightIcon />
+              </button>
+              <button
+                disabled={
+                  pagination?.lastPage || currentPage === pagination?.numPages
+                }
+                className="btn-nav-page"
+                onClick={() => handleChangePage("last")}
+              >
+                <LastPageIcon />
+              </button>
+            </Pagination>
+          </NavigationTable>
+        </TableContainer>
+      )}
     </MainContainer>
   );
 };

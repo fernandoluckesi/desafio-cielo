@@ -20,11 +20,20 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import { useSales } from "../../hooks/useSales";
 import { CircularProgress } from "@mui/material";
+import { FiltersParams } from "../../pages/Sales";
+import { theme } from "../../global/styles/theme";
+import { Formatter } from "../../utils/formatters";
 
-export const TransactionsTable: React.FC = () => {
+interface TransactionsTableProps {
+  filtersParams: FiltersParams;
+}
+
+export const TransactionsTable: React.FC<TransactionsTableProps> = ({
+  filtersParams,
+}) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { items, itemsQuantity, pagination, summary, isLoading, requestError } =
-    useSales();
+    useSales(filtersParams);
 
   // * Aqui seria uma versão em que o json tivesse outras páginas para renderizar. Resolvi não inserir essa lógica para que os botões de navegação da tabela altere o número da página, mesmo que não traga dados novos
   // const { items, itemsQuantity, pagination, summary, isLoading, requestError } =
@@ -34,7 +43,7 @@ export const TransactionsTable: React.FC = () => {
     if (pagination?.pageNumber) {
       setCurrentPage(pagination?.pageNumber);
     }
-  }, [items]);
+  }, []);
 
   const handleChangePage = (buttonType: string) => {
     switch (buttonType) {
@@ -65,6 +74,14 @@ export const TransactionsTable: React.FC = () => {
     return <RequestErrorMsg>Dados não encontrados</RequestErrorMsg>;
   }
 
+  if (items?.length === 0) {
+    return (
+      <RequestErrorMsg>
+        Nenhum dado corresponde a esse(s) filtro(s)
+      </RequestErrorMsg>
+    );
+  }
+
   return (
     <MainContainer>
       {isLoading ? (
@@ -72,7 +89,10 @@ export const TransactionsTable: React.FC = () => {
           <CircularProgress />
         </LoadingContainer>
       ) : (
-        <TableContainer component={Paper}>
+        <TableContainer
+          component={Paper}
+          sx={{ backgroundColor: theme.colors.primary.brancoCielo }}
+        >
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
@@ -98,11 +118,17 @@ export const TransactionsTable: React.FC = () => {
                     </TableCell>
                     <TableCell>{row.paymentType}</TableCell>
                     <TableCell>{row.cardBrand}</TableCell>
-                    <TableCell>{row.grossAmount}</TableCell>
-                    <TableCell>{row.netAmount}</TableCell>
+                    <TableCell>
+                      {Formatter.prettyCurrency(row.grossAmount)}
+                    </TableCell>
+                    <TableCell>
+                      {Formatter.prettyCurrency(row.netAmount)}
+                    </TableCell>
                     <TableCell>{row.channel}</TableCell>
                     <TableCell>{row.status}</TableCell>
-                    <TableCell>{row.date}</TableCell>
+                    <TableCell>
+                      {Formatter.prettyDate(new Date(row.date))}
+                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>

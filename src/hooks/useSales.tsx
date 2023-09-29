@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getPagination, getSalesItems, getSummary } from "../services/api";
+import { FiltersParams } from "../pages/Sales";
 
 export interface ItemsType {
   id: string;
@@ -43,7 +44,7 @@ export interface SummaryType {
 }
 
 //currentPage poderia ser recebido aqui e usado como parametro para a function getPagination e também seria o trigger o useEffect aqui do useSales
-export const useSales = () => {
+export const useSales = (filtersParams: FiltersParams) => {
   const [items, setItems] = useState<ItemsType[] | undefined>();
   const [pagination, setPagination] = useState<PaganitationType | undefined>();
   const [summary, setSummary] = useState<SummaryType | undefined>();
@@ -54,7 +55,7 @@ export const useSales = () => {
     setisLoading(true);
     setRequestError(false);
 
-    getSalesItems()
+    getSalesItems(filtersParams)
       .then((salesItems) => {
         setItems(salesItems);
 
@@ -73,7 +74,7 @@ export const useSales = () => {
         setRequestError(true);
         setisLoading(false);
       });
-  }, []);
+  }, [filtersParams]);
 
   return {
     items,

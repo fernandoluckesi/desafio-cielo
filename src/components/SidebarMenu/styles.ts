@@ -5,6 +5,10 @@ export const MainContainer = styled.div`
   height: 100vh;
   min-width: 270px;
   position: fixed;
+
+  @media (max-width: 1200px) {
+    display: none;
+  }
 `;
 
 export const Header = styled.div`
@@ -53,29 +57,15 @@ export const NavBar = styled.nav`
     text-decoration: none;
 
     &:hover {
-      background-color: ${({ theme }) => theme.colors.primary.entardecer};
+      background-color: ${({ theme }) => theme.colors.primary.anoitecer};
       color: ${({ theme }) => theme.colors.primary.brancoCielo};
       cursor: pointer;
     }
   }
 
   .active-link {
-    background-color: ${({ theme }) => theme.colors.primary.anoitecer};
+    background-color: ${({ theme }) => theme.colors.primary.entardecer};
     color: ${({ theme }) => theme.colors.primary.brancoCielo};
-  }
-`;
-
-export const NavItem = styled.button`
-  background-color: transparent;
-  border: none;
-  outline: none;
-  padding: 16px;
-  transition: background-color 0.2s, color 0.2s;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.primary.anoitecer};
-    color: ${({ theme }) => theme.colors.primary.brancoCielo};
-    cursor: pointer;
   }
 `;
 

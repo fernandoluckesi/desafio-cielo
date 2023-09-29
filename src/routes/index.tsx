@@ -15,4 +15,8 @@ export const router = createBrowserRouter([
     path: "/statistical-charts",
     element: <StatisticalCharts />,
   },
+  {
+    path: "*",
+    element: <Navigate to="/sales" />,
+  },
 ]);

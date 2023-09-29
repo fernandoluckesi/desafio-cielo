@@ -1,21 +1,20 @@
 import axios from "axios";
+import { FiltersParams } from "../pages/Sales";
 
 export const api = axios.create({
   baseURL: "http://localhost:3000",
 });
 
-export const getSalesItems = async () => {
+export const getSalesItems = async (filtersParams: FiltersParams) => {
   try {
-    const reponse = await api.get(
-      `/items?grossAmount_gte=&grossAmount_lte=999999999999`,
-      {
-        params: {
-          status: "Aprovada",
-        },
-      }
-    );
+    const reponse = await api.get(`/items`, {
+      params: {
+        ...filtersParams,
+      },
+    });
 
     const items = reponse.data;
+
     return items;
   } catch (error) {
     throw error;

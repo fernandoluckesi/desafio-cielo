@@ -14,5 +14,6 @@ export const theme = {
       nuvem: "#F1F2F2",
       noite: "#231F20",
     },
+    inactive: "#e1e1e1",
   },
 };

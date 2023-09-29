@@ -5,10 +5,6 @@ export const MainContainer = styled.div`
   height: 100vh;
   min-width: 270px;
   position: fixed;
-
-  @media (max-width: 1200px) {
-    display: none;
-  }
 `;
 
 export const Header = styled.div`

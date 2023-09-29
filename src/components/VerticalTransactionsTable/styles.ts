@@ -2,10 +2,11 @@ import styled from "styled-components";
 
 export const MainContainer = styled.div`
   margin: 0 auto;
+  padding: 0 16px 16px;
+`;
 
-  @media (max-width: 1200px) {
-    margin: 0 16px;
-  }
+export const TableItem = styled.div`
+  margin: 16px 0;
 `;
 
 export const RequestErrorMsg = styled.p`
@@ -22,10 +23,17 @@ export const LoadingContainer = styled.div`
 
 export const NavigationTable = styled.div`
   align-items: center;
-  border-top: 1px solid ${({ theme }) => theme.colors.secondary.nuvem};
+  background-color: ${({ theme }) => theme.colors.primary.brancoCielo};
   display: flex;
   justify-content: space-between;
   padding: 32px 16px;
+
+  @media (max-width: 600px) {
+    border-radius: 5px;
+    flex-direction: column-reverse;
+    gap: 16px;
+    padding: 16px;
+  }
 `;
 
 export const TotalQuantityInfo = styled.p`

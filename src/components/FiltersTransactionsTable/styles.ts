@@ -2,22 +2,24 @@ import styled from "styled-components";
 
 export const MainContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.primary.brancoCielo};
-  //background-color: red;
   border-radius: 5px;
   margin-bottom: 24px;
-  //padding: 16px;
+
+  @media (max-width: 1200px) {
+    border-radius: 0;
+  }
 `;
 
 export const Header = styled.div`
   align-items: center;
   border-bottom: 1px solid ${({ theme }) => theme.colors.secondary.nuvem};
   display: flex;
-  gap: 128px;
-
+  justify-content: space-between;
   padding: 16px;
 
   .page-title {
-    font-weight: 600;
+    color: ${({ theme }) => theme.colors.primary.chuva};
+    font-weight: 500;
     font-size: 24px;
   }
 
@@ -48,12 +50,21 @@ export const TriggersFilter = styled.div`
   display: grid;
   justify-content: flex-start;
   grid-template-columns: 2fr 1fr;
+
+  @media (max-width: 750px) {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 `;
 
 export const ManagerRows = styled.div`
   grid-column: 1;
   flex-grow: 1;
-  margin-top: -40px;
+
+  @media (max-width: 750px) {
+    margin-top: 32px;
+    width: 100%;
+  }
 `;
 
 export const FilterRow = styled.div`
@@ -61,7 +72,7 @@ export const FilterRow = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto;
-  gap: 16px;
+  gap: 8px;
   margin-bottom: 24px;
   padding-right: 48px;
   position: relative;
@@ -76,6 +87,10 @@ export const FilterRow = styled.div`
     &:hover {
       cursor: pointer;
     }
+  }
+
+  @media (max-width: 750px) {
+    padding-right: 32px;
   }
 `;
 

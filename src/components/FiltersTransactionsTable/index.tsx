@@ -14,7 +14,6 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
-  TextField,
 } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import FilterListIcon from "@mui/icons-material/FilterList";
@@ -25,6 +24,12 @@ import { theme } from "../../global/styles/theme";
 interface Filter {
   type: string;
   value: string;
+}
+
+interface DisabledButtonsFilter {
+  addFilter: boolean;
+  clearFilters: boolean;
+  filter: boolean;
 }
 
 const filterOptions: { [key: string]: string[] } = {
@@ -49,9 +54,13 @@ export const FiltersTransactionsTable: React.FC<
   FiltersTransactionsTableProps
 > = ({ handleSelectFiltersParams }) => {
   const [filters, setFilters] = useState<Filter[]>([{ type: "", value: "" }]);
-  const [startDate, setStartDate] = useState<string>("");
-  const [endDate, setEndDate] = useState<string>("");
   const [showFilter, setShowFilter] = useState<boolean>(false);
+  const [disabledButtonsFilter, setDisabledButtonsFilter] =
+    useState<DisabledButtonsFilter>({
+      addFilter: true,
+      clearFilters: true,
+      filter: true,
+    });
 
   const handleShowFilter = () => {
     setShowFilter(!showFilter);
@@ -61,9 +70,29 @@ export const FiltersTransactionsTable: React.FC<
     setFilters([...filters, { type: "", value: "" }]);
   };
 
+  const disabledButtonsFilterTrigger = (updatedFilters: Filter[]) => {
+    for (let filter of updatedFilters) {
+      if (filter.value) {
+        setDisabledButtonsFilter({
+          ...disabledButtonsFilter,
+          filter: false,
+          clearFilters: false,
+        });
+        break;
+      } else {
+        setDisabledButtonsFilter({
+          ...disabledButtonsFilter,
+          filter: true,
+          clearFilters: true,
+        });
+      }
+    }
+  };
+
   const removeFilter = (index: number) => {
     const updatedFilters = [...filters];
     updatedFilters.splice(index, 1);
+    disabledButtonsFilterTrigger(updatedFilters);
     setFilters(updatedFilters);
   };
 
@@ -83,15 +112,20 @@ export const FiltersTransactionsTable: React.FC<
   ) => {
     const updatedFilters = [...filters];
     updatedFilters[index].value = event.target.value as string;
+    disabledButtonsFilterTrigger(updatedFilters);
     setFilters(updatedFilters);
   };
 
   const clearFilters = () => {
+    const params = {};
+    for (let filter of filters) {
+      if (filter.value) {
+        handleSelectFiltersParams(params);
+        break;
+      }
+    }
+
     setFilters([{ type: "", value: "" }]);
-    setStartDate("");
-    setEndDate("");
-    let params = {};
-    handleSelectFiltersParams(params);
   };
 
   const handleFilter = () => {
@@ -102,6 +136,9 @@ export const FiltersTransactionsTable: React.FC<
         params = { ...params, [filter.type]: filter.value };
       }
     });
+    if (Object.keys(params).length > 0) {
+      handleSelectFiltersParams(params);
+    }
 
     //Esse trecho de código adicionaria um intervalo de datas para poder fazer o filtro. Mas o json-server não suporta esse tipo de filtro de intervalos por data
     // if (startDate) {
@@ -110,8 +147,6 @@ export const FiltersTransactionsTable: React.FC<
     // if (endDate) {
     //   params.endDate = endDate;
     // }
-
-    handleSelectFiltersParams(params);
   };
 
   return (
@@ -125,21 +160,6 @@ export const FiltersTransactionsTable: React.FC<
       {showFilter && (
         <FiltersContent>
           <TriggersFilter>
-            <TriggersBtns>
-              <ButtonDefault
-                backgroundColor={theme.colors.primary.entardecer}
-                color={theme.colors.primary.brancoCielo}
-                onClick={handleFilter}
-                text="Filtrar"
-              />
-
-              <ButtonDefault
-                backgroundColor={theme.colors.primary.chuva}
-                color={theme.colors.primary.brancoCielo}
-                onClick={clearFilters}
-                text="Limpar Filtros"
-              />
-            </TriggersBtns>
             <ManagerRows>
               {filters.map((filter, index) => (
                 <FilterRow key={index}>
@@ -217,6 +237,23 @@ export const FiltersTransactionsTable: React.FC<
                 </FilterRow>
               ))}
             </ManagerRows>
+            <TriggersBtns>
+              <ButtonDefault
+                backgroundColor={theme.colors.primary.entardecer}
+                color={theme.colors.primary.brancoCielo}
+                disabled={disabledButtonsFilter.filter}
+                onClick={handleFilter}
+                text="Filtrar"
+              />
+
+              <ButtonDefault
+                backgroundColor={theme.colors.primary.chuva}
+                color={theme.colors.primary.brancoCielo}
+                disabled={disabledButtonsFilter.clearFilters}
+                onClick={clearFilters}
+                text="Limpar Filtros"
+              />
+            </TriggersBtns>
           </TriggersFilter>
           <ButtonDefault
             backgroundColor={theme.colors.primary.entardecer}

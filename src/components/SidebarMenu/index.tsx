@@ -6,76 +6,30 @@ import { Link, useLocation } from "react-router-dom";
 import { ListMenu } from "../ListMenu";
 import { options } from "../../mocks/listMenu";
 import { AccountMenu } from "../AccountMenu";
+import MenuIcon from "@mui/icons-material/Menu";
+import { menuNavItems } from "../../utils/menuList";
 
 export const SidebarMenu: React.FC = () => {
   const location = useLocation();
 
-  const MenuNavItems = [
-    {
-      name: "sales",
-      text: "VENDAS",
-      route: "/sales",
-    },
-    {
-      name: "statisticalCharts",
-      text: "GRÁFICOS ESTATÍSTICOS",
-      route: "/statistical-charts",
-    },
-    {
-      name: "reports",
-      text: "RELATÓRIOS",
-      route: "/other-route",
-    },
-    {
-      name: "customers",
-      text: "CLIENTES",
-      route: "/other-route",
-    },
-    {
-      name: "products",
-      text: "PRODUTOS",
-      route: "/other-route",
-    },
-    {
-      name: "orders",
-      text: "PEDIDOS",
-      route: "/other-route",
-    },
-    {
-      name: "invoices",
-      text: "NOTAS FISCAIS",
-      route: "/other-route",
-    },
-    {
-      name: "inventory",
-      text: "INVENTÁRIO",
-      route: "/other-route",
-    },
-    {
-      name: "settings",
-      text: "CONFIGURAÇÕES",
-      route: "/other-route",
-    },
-    {
-      name: "help",
-      text: "AJUDA",
-      route: "/other-route",
-    },
-  ];
-
   return (
     <MainContainer>
       <Header>
-        <img src={logoCieloCinzaAzulCielo} className="header-logo" />
+        <img
+          src={logoCieloCinzaAzulCielo}
+          className="header-logo"
+          alt="Logo Cielo nas cores cinza e azul"
+        />
+
         <StoreInfos>
           <ListMenu options={options} />
           <KeyboardArrowDownIcon
-            sx={{ position: "absolute", top: 16, right: 0 }}
+            sx={{ position: "absolute", top: 18, right: 0 }}
           />
         </StoreInfos>
       </Header>
       <NavBar>
-        {MenuNavItems.map((navItem) => {
+        {menuNavItems.map((navItem) => {
           return (
             <Link
               to={navItem.route}

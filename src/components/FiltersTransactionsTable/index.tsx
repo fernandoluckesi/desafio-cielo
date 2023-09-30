@@ -153,7 +153,11 @@ export const FiltersTransactionsTable: React.FC<
     <MainContainer>
       <Header>
         <h1 className="page-title">Vendas</h1>
-        <button className="show-filters" onClick={handleShowFilter}>
+        <button
+          className="show-filters"
+          onClick={handleShowFilter}
+          data-testid="show-filters"
+        >
           <FilterListIcon /> Filtros
         </button>
       </Header>
@@ -168,6 +172,7 @@ export const FiltersTransactionsTable: React.FC<
                       Tipo de Filtro
                     </InputLabel>
                     <Select
+                      data-testid="filter-type"
                       id={`filter-type-select`}
                       name={`filter-type-select-${index}`}
                       label="Tipo de Filtro"
@@ -178,6 +183,7 @@ export const FiltersTransactionsTable: React.FC<
                       <MenuItem value="">Selecione</MenuItem>
                       {Object.keys(filterOptions).map((option) => (
                         <MenuItem
+                          data-testid={option}
                           key={option}
                           value={option}
                           disabled={filters.some(
@@ -228,6 +234,7 @@ export const FiltersTransactionsTable: React.FC<
 
                   {index > 0 && (
                     <button
+                      data-testid="remove-filter"
                       className="remove-row-btn"
                       onClick={() => removeFilter(index)}
                     >
@@ -256,6 +263,7 @@ export const FiltersTransactionsTable: React.FC<
             </TriggersBtns>
           </TriggersFilter>
           <ButtonDefault
+            data-testid="add-filter"
             backgroundColor={theme.colors.primary.entardecer}
             color={theme.colors.primary.brancoCielo}
             onClick={addFilter}

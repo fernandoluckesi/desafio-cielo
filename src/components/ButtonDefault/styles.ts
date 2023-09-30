@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { theme } from "../../global/styles/theme";
 
 interface ButtonPropsStyled {
   $backgroundColor: string;
@@ -6,7 +7,7 @@ interface ButtonPropsStyled {
 }
 
 export const MainContainer = styled.button<ButtonPropsStyled>`
-  background-color: ${({ $backgroundColor, disabled, theme }) =>
+  background-color: ${({ $backgroundColor, disabled }) =>
     disabled ? theme.colors.inactive : $backgroundColor};
   border: none;
   border-radius: 5px;

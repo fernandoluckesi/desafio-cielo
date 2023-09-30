@@ -1,7 +1,7 @@
 # Índice
 
 - [Título e Sobre](#título-e-sobre)
-- [Considerações de implementação](#Considerações-de-implementação)
+- [Considerações de implementação](#considerações-de-implementação)
 - [Objetivo do projeto](#objetivo-do-projeto)
 - [Tecnologias utilizadas](#tecnologias-utilizadas)
 - [Como rodar o projeto localmente](#como-rodar-o-projeto-localmente)

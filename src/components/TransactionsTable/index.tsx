@@ -37,7 +37,7 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
 
   // * Aqui seria uma versão em que o json tivesse outras páginas para renderizar. Resolvi não inserir essa lógica para que os botões de navegação da tabela altere o número da página, mesmo que não traga dados novos
   // const { items, itemsQuantity, pagination, summary, isLoading, requestError } =
-  // useSales(currentPage);
+  // useSales(filtersParams, currentPage);
 
   useEffect(() => {
     if (pagination?.pageNumber) {

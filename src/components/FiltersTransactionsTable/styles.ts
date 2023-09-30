@@ -1,7 +1,8 @@
 import styled from "styled-components";
+import { theme } from "../../global/styles/theme";
 
 export const MainContainer = styled.div`
-  background-color: ${({ theme }) => theme.colors.primary.brancoCielo};
+  background-color: ${theme.colors.primary.brancoCielo};
   border-radius: 5px;
   margin-bottom: 24px;
 
@@ -12,20 +13,20 @@ export const MainContainer = styled.div`
 
 export const Header = styled.div`
   align-items: center;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.secondary.nuvem};
+  border-bottom: 1px solid ${theme.colors.secondary.nuvem};
   display: flex;
   justify-content: space-between;
   padding: 16px;
 
   .page-title {
-    color: ${({ theme }) => theme.colors.primary.chuva};
+    color: ${theme.colors.primary.chuva};
     font-weight: 500;
     font-size: 24px;
   }
 
   .show-filters {
     align-items: center;
-    background-color: ${({ theme }) => theme.colors.secondary.anoitecer};
+    background-color: ${theme.colors.secondary.nuvem};
     border: none;
     border-radius: 5px;
     display: flex;
@@ -100,15 +101,3 @@ export const TriggersBtns = styled.div`
   gap: 16px;
   grid-column: 2;
 `;
-
-export const InputSearchById = styled.input``;
-
-export const ButtonSearchById = styled.button``;
-
-export const FiltersContainer = styled.div``;
-
-export const FilterItem = styled.div``;
-
-export const FilterName = styled.select``;
-
-export const FilterValue = styled.select``;

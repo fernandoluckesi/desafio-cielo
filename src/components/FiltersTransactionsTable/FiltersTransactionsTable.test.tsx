@@ -1,120 +1,90 @@
-import { render, fireEvent, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { FiltersTransactionsTable } from ".";
-
-// Mock a function for handleSelectFiltersParams
-const mockHandleSelectFiltersParams = jest.fn();
 
 describe("FiltersTransactionsTable", () => {
   it("renders the component", () => {
-    const { getByText, getByLabelText } = render(
-      <FiltersTransactionsTable
-        handleSelectFiltersParams={mockHandleSelectFiltersParams}
-      />
-    );
+    render(<FiltersTransactionsTable handleSelectFiltersParams={() => {}} />);
 
-    // Ensure that the component is rendered
-    // expect(getByText("Vendas")).toBeInTheDocument();
-    // expect(getByText("Filtros")).toBeInTheDocument();
-    // expect(getByLabelText("Tipo de Filtro")).toBeInTheDocument();
-    // expect(getByLabelText("Valor do Filtro")).toBeInTheDocument();
+    // Verifique se os elementos do componente estão presentes na tela
+    expect(screen.getByText("Vendas")).toBeInTheDocument();
+    expect(screen.getByText("Filtros")).toBeInTheDocument();
+    expect(screen.getByLabelText("Tipo de Filtro")).toBeInTheDocument();
+    expect(screen.getByLabelText("Valor do Filtro")).toBeInTheDocument();
   });
 
   it('adds a new filter when "Adicionar Filtro" button is clicked', async () => {
-    const { getByText, getByLabelText } = render(
-      <FiltersTransactionsTable
-        handleSelectFiltersParams={mockHandleSelectFiltersParams}
-      />
-    );
+    render(<FiltersTransactionsTable handleSelectFiltersParams={() => {}} />);
 
-    // Click the "Adicionar Filtro" button
-    fireEvent.click(getByText("Adicionar Filtro"));
+    fireEvent.click(screen.getByText("Adicionar Filtro"));
 
-    // Ensure that a new filter row is added
-    await waitFor(() =>
-      expect(getByLabelText("Tipo de Filtro")).toHaveLength(2)
-    );
+    await waitFor(() => {
+      // Verifique se o novo filtro foi adicionado
+      const filterTypes = screen.getAllByLabelText("Tipo de Filtro");
+      expect(filterTypes).toHaveLength(2); // Espera-se que haja 2 filtros agora
+    });
   });
 
   it('removes a filter when "Remover" button is clicked', async () => {
-    const { getByText, getByLabelText } = render(
-      <FiltersTransactionsTable
-        handleSelectFiltersParams={mockHandleSelectFiltersParams}
-      />
-    );
+    render(<FiltersTransactionsTable handleSelectFiltersParams={() => {}} />);
 
-    // Click the "Adicionar Filtro" button twice to add two filters
-    fireEvent.click(getByText("Adicionar Filtro"));
-    fireEvent.click(getByText("Adicionar Filtro"));
+    fireEvent.click(screen.getByText("Adicionar Filtro"));
+    fireEvent.click(screen.getByText("Adicionar Filtro"));
 
-    // Ensure that there are two filter rows
-    await waitFor(() =>
-      expect(getByLabelText("Tipo de Filtro")).toHaveLength(3)
-    );
+    await waitFor(() => {
+      const filterTypes = screen.getAllByLabelText("Tipo de Filtro");
+      expect(filterTypes).toHaveLength(3); // Espera-se que haja 3 filtros agora
+    });
 
-    // Click the "Remover" button for the second filter
-    fireEvent.click(getByText("Remover", { exact: false }));
+    fireEvent.click(screen.getAllByText("Remover")[0]); // Remova o primeiro filtro
 
-    // Ensure that one filter is removed
-    await waitFor(() =>
-      expect(getByLabelText("Tipo de Filtro")).toHaveLength(2)
-    );
+    await waitFor(() => {
+      const filterTypes = screen.getAllByLabelText("Tipo de Filtro");
+      expect(filterTypes).toHaveLength(2); // Espera-se que haja 2 filtros agora
+    });
   });
 
   it("handles filter changes", async () => {
-    const { getByLabelText, getByText } = render(
-      <FiltersTransactionsTable
-        handleSelectFiltersParams={mockHandleSelectFiltersParams}
-      />
-    );
+    render(<FiltersTransactionsTable handleSelectFiltersParams={() => {}} />);
 
-    // Click the "Adicionar Filtro" button to add a filter
-    fireEvent.click(getByText("Adicionar Filtro"));
+    fireEvent.click(screen.getByText("Adicionar Filtro"));
 
-    // Select a filter type
-    const filterTypeSelect = getByLabelText("Tipo de Filtro");
+    const filterTypeSelect = screen.getByLabelText("Tipo de Filtro");
     fireEvent.change(filterTypeSelect, { target: { value: "paymentType" } });
 
-    // Select a filter value
-    const filterValueSelect = getByLabelText("Valor do Filtro");
+    const filterValueSelect = screen.getByLabelText("Valor do Filtro");
     fireEvent.change(filterValueSelect, {
       target: { value: "Crédito à vista" },
     });
 
-    // Ensure that the filter type and value are updated
-    await waitFor(() => {
-      // expect(filterTypeSelect).toHaveValue("paymentType");
-      // expect(filterValueSelect).toHaveValue("Crédito à vista");
-    });
+    // Você pode adicionar asserções aqui para verificar se os valores foram alterados corretamente
   });
 
   it("handles filter submission", async () => {
-    const { getByText, getByLabelText } = render(
+    let selectedFilters = {};
+
+    render(
       <FiltersTransactionsTable
-        handleSelectFiltersParams={mockHandleSelectFiltersParams}
+        handleSelectFiltersParams={(params) => {
+          selectedFilters = params;
+        }}
       />
     );
 
-    // Click the "Adicionar Filtro" button to add a filter
-    fireEvent.click(getByText("Adicionar Filtro"));
+    fireEvent.click(screen.getByText("Adicionar Filtro"));
 
-    // Select a filter type
-    const filterTypeSelect = getByLabelText("Tipo de Filtro");
+    const filterTypeSelect = screen.getByLabelText("Tipo de Filtro");
     fireEvent.change(filterTypeSelect, { target: { value: "paymentType" } });
 
-    // Select a filter value
-    const filterValueSelect = getByLabelText("Valor do Filtro");
+    const filterValueSelect = screen.getByLabelText("Valor do Filtro");
     fireEvent.change(filterValueSelect, {
       target: { value: "Crédito à vista" },
     });
 
-    // Click the "Filtrar" button
-    fireEvent.click(getByText("Filtrar"));
+    fireEvent.click(screen.getByText("Filtrar"));
 
-    // Ensure that the handleSelectFiltersParams function is called with the correct parameters
     await waitFor(() => {
-      expect(mockHandleSelectFiltersParams).toHaveBeenCalledWith({
-        paymentType: "Crédito à vista",
-      });
+      // Verifique se a seleção dos filtros foi capturada corretamente
+      expect(selectedFilters).toEqual({ paymentType: "Crédito à vista" });
     });
   });
 });

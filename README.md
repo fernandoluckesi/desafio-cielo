@@ -8,7 +8,7 @@
 
 # Título e Sobre
 
-**Teste Prático: Dev Backend Mercado Livre** é um teste prático para atuar com back-end no Mercado Livre. E projeto consiste na criação de uma API RESTful com um recurso de que é de usuários. E ela possui as operações de: cadastro, atualização, busca de um único recurso e busca de vários recursos. E foram implementadas algumas regras para esse recurso que são: somente usuários acima de 18 anos serão cadastrados, não será permitido usuários com e-mail e CPF duplicados, quando buscar por vários usuários, deve permitir realizar um filtro pelo
+**Teste Prático: Dev Backend Mercado Livre** é um teste prático para atuar com back-end no Supermercado do Mercado Livre. E projeto consiste na criação de uma API RESTful com um recurso de que é de usuários. E ela possui as operações de: cadastro, atualização, busca de um único recurso e busca de vários recursos. E foram implementadas algumas regras para esse recurso que são: somente usuários acima de 18 anos serão cadastrados, não será permitido usuários com e-mail e CPF duplicados, quando buscar por vários usuários, deve permitir realizar um filtro pelo
 nome, Permitir a alteração parcial e Validar se o CPF é válido (dígitos verificadores).
 
 # Considerações de implementação

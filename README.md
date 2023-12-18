@@ -41,16 +41,20 @@ O projeto**Teste Prático: Dev Backend Supermercado do Mercado Livre** tem como 
 
 1. Clone o repositório
 
-Abra o terminal e execute o comando `git@github.com:fernandoluckesi/supermercado.git ou [https://github.com/fernandoluckesi/my-collection.git](https://github.com/fernandoluckesi/supermercado.git)`
+Abra o terminal e execute o comando `git@github.com:fernandoluckesi/supermercado.git ou https://github.com/fernandoluckesi/my-collection.git`
 
 2. Instale as dependências de desenvolvimento
 
-Acesse o diretótio onde está o projeto e execute `npm install` ou `yarn`
+Acesse o diretótio onde está o projeto e execute `docker compose up` (Certifque de ter o Docker instalado)
 
 3. Para rodar o Front-end execute:
 
-Ainda dentro diretótio execute o comando `npm start` ou `yarn start`
+Abra outro terminal e ainda no mesmo diretótio do projeto execute o comando `mvn spring-boot:run`
 
-4. Executando a API do json-server:
+4. Executando os testes automatizados:
 
-Abra outro terminal e ainda no mesmo diretótio do projeto execute o comando `json-server --watch db.json`
+Abra outro terminal e ainda no mesmo diretótio do projeto execute o comando `mvn test`
+
+4. Realizar build do projeto :
+
+No terminal e ainda no mesmo diretótio do projeto execute o comando `mvn clean install`

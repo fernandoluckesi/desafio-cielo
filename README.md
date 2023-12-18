@@ -19,30 +19,22 @@ Aqui neste README não irei detalhar cada rota da API pois já existe uma docume
 
 O projeto**Teste Prático: Dev Backend Supermercado do Mercado Livre** tem como objetivo demonstrar minhas seguintes habilidades como Desenvolvedor de Software com ênfase no back-end:
 
-- Domínio de HTML, Javascript, Typescript, CSS e React
-- Documentação de projeto
-- Design responsivo
-- Consumo de API utilizando Axios
-- Componentização em React
-- Organização do código
-- Uso e criação de Hooks customizados
-- Acessibilidade
-- Uso da biblioteca Styled Components
-- Criação de estilo global
+- Programação orientada a objetos (POO)
+- Java
+- Spring Framework
 - Testes automatizados
-- Desenvolver pensando na experiência do usuário
+- Persistência de dados em banco de dados
+- Documentação de projeto
+- Padrões de projeto e de arquitetura.
 
 # Tecnologias utilizadas
 
-- HTML
-- CSS
-- JavaScript
-- Typescript
-- React com Vite
-- Vitest
-- Axios
-- Styled Components
-- Json Server
+- Java (Linguagem de programação)
+- Spring (Framework) 
+- Swagger (Bliblioteca de documentação de API)
+- Postgresql (Banco de dados)
+- Junit e Spring Boot Starter Test (Testes automatizados)
+- Data JPA (Framework de ORM(Object Relational Mapping))
 
 # Como rodar o projeto localmente
 

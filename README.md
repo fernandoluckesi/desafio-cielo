@@ -34,6 +34,7 @@ O projeto**Teste Prático: Dev Backend Supermercado do Mercado Livre** tem como 
 - Swagger (Bliblioteca de documentação de API)
 - Postgresql (Banco de dados)
 - Junit e Spring Boot Starter Test (Testes automatizados)
+- Spring Boot Starter Security (Para criptografar senha no banco de dados)
 - Data JPA (Framework de ORM(Object Relational Mapping))
 
 # Como rodar o projeto localmente
